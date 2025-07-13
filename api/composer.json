@@ -1,0 +1,17 @@
+{
+    "name": "task-management/api",
+    "description": "Task Management System API",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "phpmailer/phpmailer": "^6.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "TaskManagement\\": "classes/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}
