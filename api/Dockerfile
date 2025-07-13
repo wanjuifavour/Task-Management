@@ -35,9 +35,47 @@ RUN echo '#!/bin/bash' > /usr/local/bin/start.sh && \
     echo 'apache2-foreground' >> /usr/local/bin/start.sh && \
     chmod +x /usr/local/bin/start.sh
 
+# Create .env file from environment variables
+RUN echo '#!/bin/bash' > /usr/local/bin/create-env.sh && \
+    echo 'cat > /var/www/html/.env << EOF' >> /usr/local/bin/create-env.sh && \
+    echo 'DB_HOST=${DB_HOST:-localhost}' >> /usr/local/bin/create-env.sh && \
+    echo 'DB_PORT=${DB_PORT:-5432}' >> /usr/local/bin/create-env.sh && \
+    echo 'DB_USERNAME=${DB_USERNAME:-postgres}' >> /usr/local/bin/create-env.sh && \
+    echo 'DB_PASSWORD=${DB_PASSWORD:-your_password}' >> /usr/local/bin/create-env.sh && \
+    echo 'DB_DATABASE=${DB_DATABASE:-task_management}' >> /usr/local/bin/create-env.sh && \
+    echo 'MAIL_FROM=${MAIL_FROM:-your-email@gmail.com}' >> /usr/local/bin/create-env.sh && \
+    echo 'MAIL_FROM_NAME=${MAIL_FROM_NAME:-Task Manager}' >> /usr/local/bin/create-env.sh && \
+    echo 'SMTP_HOST=${SMTP_HOST:-smtp.gmail.com}' >> /usr/local/bin/create-env.sh && \
+    echo 'SMTP_PORT=${SMTP_PORT:-587}' >> /usr/local/bin/create-env.sh && \
+    echo 'SMTP_USERNAME=${SMTP_USERNAME:-your-email@gmail.com}' >> /usr/local/bin/create-env.sh && \
+    echo 'SMTP_PASSWORD=${SMTP_PASSWORD:-your-app-password}' >> /usr/local/bin/create-env.sh && \
+    echo 'APP_ENV=${APP_ENV:-development}' >> /usr/local/bin/create-env.sh && \
+    echo 'APP_DEBUG=${APP_DEBUG:-true}' >> /usr/local/bin/create-env.sh && \
+    echo 'EOF' >> /usr/local/bin/create-env.sh && \
+    chmod +x /usr/local/bin/create-env.sh
+
+# Create .env file from environment variables
+RUN echo '#!/bin/bash' > /usr/local/bin/create-env.sh && \
+    echo 'cat > /var/www/html/.env << EOF' >> /usr/local/bin/create-env.sh && \
+    echo 'DB_HOST=${DB_HOST:-localhost}' >> /usr/local/bin/create-env.sh && \
+    echo 'DB_PORT=${DB_PORT:-5432}' >> /usr/local/bin/create-env.sh && \
+    echo 'DB_USERNAME=${DB_USERNAME:-postgres}' >> /usr/local/bin/create-env.sh && \
+    echo 'DB_PASSWORD=${DB_PASSWORD:-dbpassword}' >> /usr/local/bin/create-env.sh && \
+    echo 'DB_DATABASE=${DB_DATABASE:-task_management}' >> /usr/local/bin/create-env.sh && \
+    echo 'MAIL_FROM=${MAIL_FROM:-wanjui.dev@gmail.com}' >> /usr/local/bin/create-env.sh && \
+    echo 'MAIL_FROM_NAME=${MAIL_FROM_NAME:-Task Manager}' >> /usr/local/bin/create-env.sh && \
+    echo 'SMTP_HOST=${SMTP_HOST:-smtp.gmail.com}' >> /usr/local/bin/create-env.sh && \
+    echo 'SMTP_PORT=${SMTP_PORT:-587}' >> /usr/local/bin/create-env.sh && \
+    echo 'SMTP_USERNAME=${SMTP_USERNAME:-your-email@gmail.com}' >> /usr/local/bin/create-env.sh && \
+    echo 'SMTP_PASSWORD=${SMTP_PASSWORD:-your-app-password}' >> /usr/local/bin/create-env.sh && \
+    echo 'APP_ENV=${APP_ENV:-development}' >> /usr/local/bin/create-env.sh && \
+    echo 'APP_DEBUG=${APP_DEBUG:-true}' >> /usr/local/bin/create-env.sh && \
+    echo 'EOF' >> /usr/local/bin/create-env.sh && \
+    chmod +x /usr/local/bin/create-env.sh
+
 # Expose port 80
 EXPOSE 80
 
 # Start with setup script
-CMD ["/usr/local/bin/start.sh"]
+CMD ["/bin/bash", "-c", "/usr/local/bin/create-env.sh && /usr/local/bin/start.sh"]
 
