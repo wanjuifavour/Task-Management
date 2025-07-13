@@ -26,9 +26,18 @@ RUN composer install --no-dev --optimize-autoloader
 # Set permissions (adjust as needed)
 RUN chown -R www-data:www-data /var/www/html
 
+# Create startup script without .env copy
+RUN echo '#!/bin/bash' > /usr/local/bin/start.sh && \
+    echo 'cd /var/www/html' >> /usr/local/bin/start.sh && \
+    echo 'echo "Running setup script..."' >> /usr/local/bin/start.sh && \
+    echo 'php setup.php' >> /usr/local/bin/start.sh && \
+    echo 'echo "Starting Apache..."' >> /usr/local/bin/start.sh && \
+    echo 'apache2-foreground' >> /usr/local/bin/start.sh && \
+    chmod +x /usr/local/bin/start.sh
+
 # Expose port 80
 EXPOSE 80
 
-# Start Apache in the foreground
-CMD ["apache2-foreground"]
+# Start with setup script
+CMD ["/usr/local/bin/start.sh"]
 
