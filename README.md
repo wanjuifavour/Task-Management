@@ -322,7 +322,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 For support or questions:
 - Create an issue in the repository
-- Contact: [wanjui.dev@example.com]
+- Contact: [wanjui.dev@gmail.com]
 
 ---
 
