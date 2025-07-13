@@ -13,7 +13,17 @@ if (file_exists('vendor/autoload.php')) {
 }
 
 // Enable CORS
-header('Access-Control-Allow-Origin: http://localhost:5173/ https://task-management-cytonn.vercel.app');
+$allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:3000', 
+    'https://task-management-cytonn.vercel.app'
+];
+
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (in_array($origin, $allowedOrigins)) {
+    header("Access-Control-Allow-Origin: $origin");
+}
+
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Credentials: true');
