@@ -59,8 +59,18 @@
           
           <div class="form-group">
             <label>Password</label>
-            <input v-model="userForm.password" type="password" :required="!showEditModal" />
-            <small v-if="showEditModal">Leave blank to keep current password</small>
+            <input 
+              v-model="userForm.password" 
+              type="password" 
+              :required="!showEditModal" 
+              :disabled="showEditModal && userForm.role === 'admin'"
+            />
+            <small v-if="showEditModal && userForm.role === 'admin'">
+              Password changes are disabled for administrator accounts
+            </small>
+            <small v-else-if="showEditModal">
+              Leave blank to keep current password
+            </small>
           </div>
           
           <div class="form-group">
@@ -192,7 +202,7 @@ function editUser(user: any) {
   userForm.value = {
     username: user.username,
     email: user.email,
-    password: '',
+    password: user.role === 'admin' ? '' : '', // Always clear password for security
     role: user.role
   }
   showEditModal.value = true
@@ -446,6 +456,12 @@ onMounted(() => {
   border-radius: 4px;
   font-size: 14px;
   box-sizing: border-box;
+}
+
+.form-group input:disabled {
+  background-color: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
 }
 
 .form-group small {

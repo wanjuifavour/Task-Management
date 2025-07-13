@@ -287,6 +287,12 @@ function handleUsers($method, $resource, $userManager) {
                 sendResponse(['error' => 'Permission denied'], 403);
             }
             
+            // Prevent password changes for admin users
+            $targetUser = $userManager->findById($resource);
+            if ($targetUser && $targetUser['role'] === 'admin' && isset($data['password']) && !empty($data['password'])) {
+                sendResponse(['error' => 'Cannot change password for administrator accounts'], 403);
+            }
+            
             try {
                 $user = $userManager->update($resource, $data);
                 sendResponse(['message' => 'User updated successfully', 'user' => $user]);

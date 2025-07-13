@@ -1,0 +1,54 @@
+# Environment Variables
+.env
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# PHP specific
+api/vendor/
+api/composer.lock
+api/*.log
+api/logs/
+api/tmp/
+api/cache/
+
+# Temporary files
+api/temp/
+api/tmp/
+api/*.tmp
+api/*.temp
+
+# Cookie and session files
+**/cookies.txt
+
+# Local development scripts
+api/run-docker.sh
+
+# IDE and Editor files
+node_modules
+.DS_Store
+dist
+dist-ssr
+coverage
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+*.tsbuildinfo
+
+# VS-Code Settings
+.vscode

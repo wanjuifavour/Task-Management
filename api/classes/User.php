@@ -102,6 +102,25 @@ class User {
         $updateFields = [];
         $params = [];
         
+        // Handle password update separately
+        if (isset($data['password']) && !empty($data['password'])) {
+            // Check if user is admin - prevent password changes for admins
+            $user = $this->findById($id);
+            if ($user && $user['role'] === 'admin') {
+                throw new Exception("Cannot change password for administrator accounts");
+            }
+            
+            // Update password
+            $hashedPassword = password_hash($data['password'], PASSWORD_DEFAULT);
+            $sql = "UPDATE users SET password = ? WHERE id = ?";
+            $affected = $this->db->execute($sql, [$hashedPassword, $id]);
+            
+            if ($affected === 0) {
+                throw new Exception("User not found");
+            }
+        }
+        
+        // Update other fields
         foreach ($data as $field => $value) {
             if (in_array($field, $allowedFields)) {
                 $updateFields[] = "$field = ?";
@@ -109,17 +128,15 @@ class User {
             }
         }
         
-        if (empty($updateFields)) {
-            throw new Exception("No valid fields to update");
-        }
-        
-        $params[] = $id;
-        $sql = "UPDATE users SET " . implode(', ', $updateFields) . " WHERE id = ?";
-        
-        $affected = $this->db->execute($sql, $params);
-        
-        if ($affected === 0) {
-            throw new Exception("User not found or no changes made");
+        if (!empty($updateFields)) {
+            $params[] = $id;
+            $sql = "UPDATE users SET " . implode(', ', $updateFields) . " WHERE id = ?";
+            
+            $affected = $this->db->execute($sql, $params);
+            
+            if ($affected === 0) {
+                throw new Exception("User not found or no changes made");
+            }
         }
         
         return $this->findById($id);

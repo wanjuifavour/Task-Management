@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     unzip \
     && docker-php-ext-install pdo pdo_pgsql pdo_mysql zip
 
-# Enable Apache modules (removed headers to avoid conflicts)
+# Enable Apache modules
 RUN a2enmod rewrite
 
 # Set working directory
@@ -23,7 +23,7 @@ COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Create .htaccess file for API routing (NO CORS headers)
+# Create .htaccess file for API routing
 RUN echo 'RewriteEngine On' > /var/www/html/.htaccess && \
     echo '' >> /var/www/html/.htaccess && \
     echo '# Handle CORS preflight requests' >> /var/www/html/.htaccess && \

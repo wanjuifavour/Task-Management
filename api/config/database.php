@@ -1,7 +1,6 @@
 <?php
 /**
  * Database Configuration
- * Configure your database connection here
  */
 
 return [
