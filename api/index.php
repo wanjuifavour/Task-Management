@@ -16,7 +16,8 @@ if (file_exists('vendor/autoload.php')) {
 $allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:3000', 
-    'https://task-management-cytonn.vercel.app'
+    'https://task-management-cytonn.vercel.app',
+    'https://www.task-management-cytonn.vercel.app'
 ];
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
