@@ -15,7 +15,10 @@ if (file_exists('vendor/autoload.php')) {
 // Enable CORS
 $allowedOrigins = [
     'http://localhost:5173',
-    'http://localhost:3000', 
+    'http://localhost:3000',
+    'http://localhost:5174', // Alternative Vite port
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:3000',
     'https://task-management-cytonn.vercel.app',
     'https://www.task-management-cytonn.vercel.app'
 ];
@@ -23,6 +26,11 @@ $allowedOrigins = [
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 if (in_array($origin, $allowedOrigins)) {
     header("Access-Control-Allow-Origin: $origin");
+} else {
+    // For development, allow localhost origins
+    if (preg_match('/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/', $origin)) {
+        header("Access-Control-Allow-Origin: $origin");
+    }
 }
 
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
